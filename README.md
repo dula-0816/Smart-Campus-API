@@ -1,31 +1,61 @@
-# Smart Campus: Sensor & Room Management API
-**Module:** Client-Server Architectures (5COSC022W)
-**Lead Backend Architect:** [Your Name]
+# SmartCampus API
+
+## Overview
+The **SmartCampus API** is a RESTful service for managing rooms, sensors, and sensor readings in a campus environment.  
+It demonstrates:
+- A **Discovery endpoint** (`GET /api/v1`) for API metadata.
+- **CRUD operations** for rooms and sensors.
+- **Validation and error handling** with proper HTTP codes (404, 409, 422, 403).
+- **Cross-cutting logging** using JAX-RS filters.
+- Support for **Java 8 date/time types** via Jackson JSR310 module.
 
 ---
 
-## 1. Project Overview
-[cite_start]This project is a high-performance RESTful web service built using JAX-RS (Jakarta RESTful Web Services)[cite: 35]. [cite_start]It provides a seamless interface for campus facilities managers to manage thousands of Rooms and various Sensors (CO2, occupancy, lighting) within the "Smart Campus" infrastructure[cite: 34, 36].
+## Build & Launch Instructions
 
-## 2. API Design & Hierarchy
-[cite_start]The API follows a logical resource hierarchy reflecting the physical campus structure[cite: 39]:
-- [cite_start]`/api/v1/rooms`: Management of campus rooms[cite: 114].
-- [cite_start]`/api/v1/sensors`: Management of hardware sensors[cite: 128].
-- [cite_start]`/api/v1/sensors/{id}/readings`: Nested historical data for specific sensors[cite: 141].
+### Prerequisites
+- Java JDK 21  
+- Apache Maven 3.8+  
+- NetBeans 24 (optional, for IDE integration)
 
-## 3. Setup & Build Instructions
-Follow these steps to run the server locally:
-1. **Prerequisites:** Ensure you have Java 17+ and Maven installed.
-2. **Clone the repo:** `git clone [Your Repo Link]`
-3. **Build the project:** Run `mvn clean install` in the terminal.
-4. **Launch the Server:** [Insert your specific command, e.g., `mvn exec:java` or how you run your embedded server].
-5. **Base URL:** The API is accessible at `http://localhost:8080/api/v1`.
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/<your-username>/smartcampus-api.git
+   cd smartcampus-api
+   
+2. Build the project:
+   mvn clean install
 
-## 4. Sample CURL Commands
-[cite_start]Use these commands to test the API functionality[cite: 176]:
+3. Launch the server:
+   mvn exec:java -Dexec.mainClass="com.smartcampus.Main"
 
-### A. Discovery Endpoint
-```bash
-curl -X GET http://localhost:8080/api/v1
+4. Access the API at:
+   http://localhost:9091/api/v1/
+
+### Sample curl commands
+1. Discovery endpoint
+   curl -X GET http://localhost:9091/api/v1
+
+2. Create a room
+   curl -X POST http://localhost:9091/api/v1/rooms \
+     -H "Content-Type: application/json" \
+     -d '{"id":101,"name":"Lab A","capacity":40}'
+
+3. List all rooms
+   curl -X GET http://localhost:9091/api/v1/rooms
+
+4. Add a sensor to a room
+   curl -X POST http://localhost:9091/api/v1/sensors \
+     -H "Content-Type: application/json" \
+     -d '{"id":201,"type":"CO2","roomId":101}'
+
+5. Add a sensor reading
+   curl -X POST http://localhost:9091/api/v1/sensors/201/readings \
+     -H "Content-Type: application/json" \
+     -d '{"timestamp":"2026-04-24T03:00:00","value":215}'
+
+    
+
 
 
